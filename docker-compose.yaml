@@ -1,0 +1,64 @@
+services:
+  backend:
+    build:
+      args:
+      - NODE_ENV=development
+      context: backend
+      target: development
+    image: alkaponees/simple-app-backend:dev
+    env_file:
+      - .env
+    ports:
+      - "8000"
+    volumes:
+      - backend:/opt/app/node_modules
+    networks:
+      - public
+      - private
+    depends_on:
+      - db
+  db:
+    # We use a mariadb image which supports both amd64 & arm64 architecture
+    image: mariadb:10.6.4-focal
+    # If you really want to use MySQL, uncomment the following line
+    #image: mysql:8.0.27
+    command: '--default-authentication-plugin=mysql_native_password'
+    restart: always
+    volumes:
+      - db-data:/var/lib/mysql
+    networks:
+      - private
+    env_file:
+      - .env_db
+
+  frontend:
+    build:
+      context: frontend
+      target: development
+    image: alkaponees/simple-app-frontend:dev 
+    ports:
+      - "3000"
+    networks:
+      - public
+    depends_on:
+      - backend
+  nginx:
+    image: nginx:alpine
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/conf.d/default.conf:ro
+      - ./certs:/etc/nginx/certs:ro
+    depends_on:
+      - frontend
+      - backend
+    networks:
+      - public
+      - private
+networks:
+  public:
+  private:
+volumes:
+  backend:
+  db-data:
