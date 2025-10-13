@@ -25,11 +25,11 @@ jobs:
           fetch-depth: 0
 
       - name: TruffleHog OSS
-        uses: trufflesecurity/trufflehog@v3
+        uses: trufflesecurity/trufflehog@add-actions-cli-switch 
         with:
           path: ./
           base: ${{ github.event.repository.default_branch }}
           head: HEAD
-          extra_args: --debug
+          extra_args: --debug --only-verified
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
