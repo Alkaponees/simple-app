@@ -25,6 +25,6 @@ jobs:
           fetch-depth: 0
 
       - name: Run Gitleaks
-        uses: gitleaks/gitleaks-action@v1.0.0   # or v2 if you check the version
+        uses: gitleaks/gitleaks-action@v2   # or v2 if you check the version
         env:
           GITHUB_TOKEN: ${{ secrets.TRUFFLEHOG_GITHUB_TOKEN }}
