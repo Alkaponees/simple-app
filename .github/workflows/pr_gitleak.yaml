@@ -12,27 +12,16 @@ on:
   workflow_dispatch: 
 
 jobs:
-  TruffleHog:
+  ScanSecrets:
+    name: Scan secrets
     runs-on: ubuntu-latest
-    defaults:
-      run:
-        shell: bash
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v3
+      - name: Checkout Code
+        uses: actions/checkout@v4
         with:
           fetch-depth: 0
 
-      - name: TruffleHog OSS
-        id: trufflehog
-        uses: trufflesecurity/trufflehog@main
-        continue-on-error: true
-        with:
-          path: ./
-          base: "${{ github.event.repository.default_branch }}"
-          head: HEAD
-          extra_args: --debug
-
-      - name: Scan Results Status
-        if: steps.trufflehog.outcome == 'failure'
-        run: exit 1
+      - name: Run Gitleaks
+        uses: gitleaks/gitleaks-action@v2   # or v2 if you check the version
+        env:
+          GITHUB_TOKEN: ${{ secrets.TRUFFLEHOG_GITHUB_TOKEN }}
