@@ -1,0 +1,27 @@
+name: Secret Scanning with Gitleaks
+
+on:
+  push:
+    branches:
+      - main
+      - master
+  pull_request:
+    branches:
+      - main
+      - master
+  workflow_dispatch: 
+
+jobs:
+  ScanSecrets:
+    name: Scan secrets
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Run Gitleaks
+        uses: gitleaks/gitleaks-action@v2   # or v2 if you check the version
+        env:
+          GITHUB_TOKEN: ${{ secrets.TRUFFLEHOG_GITHUB_TOKEN }}
