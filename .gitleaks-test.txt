@@ -1,0 +1,5 @@
+aws_access_key_id=AKIAIOSFODNN7EXAMPLE
+aws_secret_access_key=wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY
+github_token=ghp_ABCDEFGHIJKLMNOPQRSTUVWX1234567890ab
+google_api_key=AIzaSyD-FAKE-EXAMPLE-1234567890abcd
+stripe_key=sk_test_51HFAKEEXAMPLEabcdefghijklmnopqrstuvwx
